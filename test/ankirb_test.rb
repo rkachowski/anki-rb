@@ -5,7 +5,5 @@ class AnkirbTest < Minitest::Test
     refute_nil ::Anki::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
-  end
+
 end
