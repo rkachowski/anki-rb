@@ -1,7 +1,4 @@
-Dir.glob(File.join(__FILE__, '*/**/*.rb')).map{|m| m.pathmap '%X' }.each do |file|
-  require file
-end
 
 module Anki
-
+  Gem.find_files("ankirb/**/*.rb").each { |path| require path }
 end
