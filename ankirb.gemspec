@@ -5,7 +5,7 @@ require 'ankirb/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "ankirb"
-  spec.version       = Ankirb::VERSION
+  spec.version       = Anki::VERSION
   spec.authors       = ["TODO: Write your name"]
   spec.email         = ["git@toastymofo.net"]
 

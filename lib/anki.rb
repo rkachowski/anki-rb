@@ -1,5 +1,5 @@
 require "ankirb/version"
 
-module Ankirb
+module Anki
   # Your code goes here...
 end
