@@ -9,9 +9,11 @@ module Anki
 
         archive = Zip::File.open(path + '.apkg', Zip::File::CREATE)
 
-        dir['*'].each do |file|
+        Dir.glob(File.join(dir,'*')).each do |file|
           archive.add(file,file)
         end
+
+        archive.close()
       end
     end
   end
