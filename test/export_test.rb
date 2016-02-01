@@ -6,10 +6,10 @@ class ExportTest < Minitest::Test
     deck.add_card Anki::Card.new
 
     Dir.mktmpdir do |tmp|
-      Anki::apkg.export deck, 'TestPackage'
+      file_path = File.join(tmp, 'TestPackage.apgk')
 
-      file_path = File.join(tmp, 'TestPackage')
-      assert File.exists? file_path, "package file should exist at #{file_path}"
+      Anki::apkg.export deck, file_path
+      assert File.exists?(file_path), "package file should exist at #{file_path}"
     end
 
   end

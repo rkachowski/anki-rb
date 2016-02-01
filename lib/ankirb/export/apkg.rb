@@ -5,7 +5,7 @@ module Anki
 
     def self.export deck, path
       Dir.mktmpdir do |dir|
-        #create all files in dir here
+        export_deck deck
 
         archive = Zip::File.open(path + '.apkg', Zip::File::CREATE)
 
@@ -15,6 +15,15 @@ module Anki
 
         archive.close()
       end
+    end
+    private
+
+    def self.export_deck deck
+      #create db
+      #export deck properties
+      #export all cards in deck
+
+      #TODO: export media
     end
   end
 end
