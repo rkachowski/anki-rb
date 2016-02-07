@@ -24,7 +24,6 @@ module Anki
           archive.close()
 
           FileUtils.move(filename,path)
-          #copy archive to path
         end
       end
     end
@@ -33,7 +32,7 @@ module Anki
     def self.export_deck deck, db
 
       decks = {}
-      decks["1"] = Defaults.deck.clone
+      decks["1"] = Defaults.deck
       decks[deck.id.to_s] = deck_to_json deck
 
       model = Defaults.model(deck.id)
@@ -60,7 +59,7 @@ module Anki
     end
 
     def self.deck_to_json deck
-      %Q({"name": "#{deck.name}", "extendRev": 50, "usn": -1, "collapsed": false, "browserCollapsed": true, "newToday": [29, 0], "timeToday": [29, 0], "dyn": 0, "extendNew": 10, "conf": 1, "revToday": [29, 0], "lrnToday": [29, 0], "id": #{deck.id}, "mod": 1454538410, "desc": "#{deck.desc}"})
+      JSON.parse %Q({"name": "#{deck.name}", "extendRev": 50, "usn": -1, "collapsed": false, "browserCollapsed": true, "newToday": [29, 0], "timeToday": [29, 0], "dyn": 0, "extendNew": 10, "conf": 1, "revToday": [29, 0], "lrnToday": [29, 0], "id": #{deck.id}, "mod": 1454538410, "desc": "#{deck.desc}"})
     end
   end
 end
