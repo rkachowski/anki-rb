@@ -1,12 +1,13 @@
 module Anki
   class Deck
-    attr_accessor :name
+    attr_accessor :name, :desc
     attr_reader :id, :cards
 
     def initialize name
       @name = name
       @id = Time.now.to_i
       @cards = {}
+      
     end
 
     def add_card card
