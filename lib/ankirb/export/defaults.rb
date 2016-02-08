@@ -5,7 +5,11 @@ module Anki
     end
 
     def self.model deck_id
-      JSON.parse %Q({"1451998862056": {"vers": [], "name": "Basic", "tags": [], "did": #{deck_id}, "usn": -1, "req": [[0, "all", [0]]], "flds": [{"name": "Front", "media": [], "sticky": false, "rtl": false, "ord": 0, "font": "Arial", "size": 20}, {"name": "Back", "media": [], "sticky": false, "rtl": false, "ord": 1, "font": "Arial", "size": 20}], "sortf": 0, "latexPre": "\\\\documentclass[12pt]{article}\\n\\\\special{papersize=3in,5in}\\n\\\\usepackage[utf8]{inputenc}\\n\\\\usepackage{amssymb,amsmath}\\n\\\\pagestyle{empty}\\n\\\\setlength{\\\\parindent}{0in}\\n\\\\begin{document}\\n\", "tmpls": [{"name": "Card 1", "qfmt": "{{Front}}", "did": null, "bafmt": "", "afmt": "{{FrontSide}}\\n\\n<hr id=answer>\\n\\n{{Back}}", "ord": 0, "bqfmt": ""}], "latexPost": "\\\\end{document}", "type": 0, "id": 1451998862056, "css": ".card {\\n font-family: arial;\\n font-size: 20px;\\n text-align: center;\\n color: black;\\n background-color: white;\\n}\\n", "mod": 1454538410}})
+      JSON.parse %Q({"#{model_id}": {"vers": [], "name": "Basic", "tags": [], "did": #{deck_id}, "usn": -1, "req": [[0, "all", [0]]], "flds": [{"name": "Front", "media": [], "sticky": false, "rtl": false, "ord": 0, "font": "Arial", "size": 20}, {"name": "Back", "media": [], "sticky": false, "rtl": false, "ord": 1, "font": "Arial", "size": 20}], "sortf": 0, "latexPre": "\\\\documentclass[12pt]{article}\\n\\\\special{papersize=3in,5in}\\n\\\\usepackage[utf8]{inputenc}\\n\\\\usepackage{amssymb,amsmath}\\n\\\\pagestyle{empty}\\n\\\\setlength{\\\\parindent}{0in}\\n\\\\begin{document}\\n\", "tmpls": [{"name": "Card 1", "qfmt": "{{Front}}", "did": null, "bafmt": "", "afmt": "{{FrontSide}}\\n\\n<hr id=answer>\\n\\n{{Back}}", "ord": 0, "bqfmt": ""}], "latexPost": "\\\\end{document}", "type": 0, "id": 1451998862056, "css": ".card {\\n font-family: arial;\\n font-size: 20px;\\n text-align: center;\\n color: black;\\n background-color: white;\\n}\\n", "mod": 1454538410}})
+    end
+
+    def self.model_id
+      1451998862056
     end
 
     def self.conf

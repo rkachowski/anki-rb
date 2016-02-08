@@ -1,7 +1,7 @@
 require 'zip'
 require 'json'
 require 'fileutils'
-
+require 'base91'
 module Anki
 
   SCHEMA_VERSION = 11
@@ -14,30 +14,34 @@ module Anki
           db = DB.create 'collection.anki2'
 
           export_deck deck, db
+          export_media deck
           filename = deck.name + '.apkg'
           archive = Zip::File.open(filename, Zip::File::CREATE)
 
           Dir.glob('*').each do |file|
-            archive.add(file,file)
+            archive.add(file, file)
           end
 
           archive.close()
 
-          FileUtils.move(filename,path)
+          FileUtils.move(filename, path)
         end
       end
     end
+
     private
+    def self.export_media deck
+      #TODO: correctly export media
+      File.open('media', 'w'){|f| f << '{}'}
+    end
 
     def self.export_deck deck, db
 
       decks = {}
-      decks["1"] = Defaults.deck
+      decks['1'] = Defaults.deck
       decks[deck.id.to_s] = deck_to_json deck
 
       model = Defaults.model(deck.id)
-      #export deck properties
-      #export all cards in deck
 
       db.execute "insert into col values(
         #{deck.id},
@@ -55,7 +59,39 @@ module Anki
         '#{Defaults.tags}'
       )"
 
-      #TODO: export media
+      deck.cards.each do |card|
+        note = {
+            :id => Time.now.to_i,
+            :guid => Base91.encode(Random.new.rand(2**63).to_s),
+            :mid => Defaults.model_id,
+            :mod => Time.now.to_i,
+            :usn => -1,
+            :tags => nil,
+            :flds => [card.front, card.back].join('\x1f').force_encoding('UTF-8'),
+            :sfld => card.front,
+            :csum => 0,
+            :flags => 0,
+            :data => nil
+        }
+
+        add_note_to_db note, db
+      end
+
+    end
+
+    def self.add_note_to_db note, db
+      db.execute "insert into notes values(
+        #{note[:id]},
+        '#{note[:guid]}',
+        #{note[:mid]},
+        #{note[:mod]},
+        #{note[:usn]},
+        '#{note[:tags]}',
+        '#{note[:flds]}',
+        '#{note[:sfld]}',
+        #{note[:csum]},
+        #{note[:flags]},
+        '#{note[:data]}')"
     end
 
     def self.deck_to_json deck
