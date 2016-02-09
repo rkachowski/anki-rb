@@ -41,4 +41,16 @@ module Anki
       @id = Time.now.to_i
     end
   end
+
+  class Type
+    def self.new_type
+      0
+    end
+  end
+
+  class Queue
+    def self.new_queue
+      0
+    end
+  end
 end

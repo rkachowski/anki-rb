@@ -75,8 +75,31 @@ module Anki
         }
 
         add_note_to_db note, db
+        add_card_to_db note, deck, db
       end
 
+    end
+
+    def self.add_card_to_db(note, deck, db)
+      db.execute "insert into cards values(
+        #{Time.now.to_i},
+        #{note[:id]},
+        #{deck.id},
+        0,
+        #{Time.now.to_i},
+        -1,
+        #{Type.new_type},
+        #{Queue.new_queue},
+        #{Random.new.rand(2**10)},
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        '')"
     end
 
     def self.add_note_to_db note, db
