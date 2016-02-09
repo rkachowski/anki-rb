@@ -32,7 +32,7 @@ module Anki
     private
     def self.export_media deck
       #TODO: correctly export media
-      File.open('media', 'w'){|f| f << '{}'}
+      File.open('media', 'w'){|f| f << Defaults.media }
     end
 
     def self.export_deck deck, db
@@ -53,7 +53,7 @@ module Anki
         -1,
         0,
         '#{Defaults.conf}',
-        '#{model}',
+        '#{model.to_json}',
         '#{JSON.generate(decks)}',
         '#{Defaults.dconf}',
         '#{Defaults.tags}'

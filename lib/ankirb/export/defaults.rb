@@ -23,5 +23,9 @@ module Anki
     def self.tags
       '{}'
     end
+
+    def self.media
+      '{"1": "_Trompete.wav", "0": "____________C2A0C2A0C2A0C2A0C2A0C2A0privateC2A0C2A0C2A0C2A0C2A027-------------------27__.mp3", "3": "_Guitarre.wav", "2": "_Piano.mp3", "5": "_Flo\u0308te.mp3", "4": "_Trommel.wav", "7": "_ish_1_gb_1.mp3", "6": "_____________+no+smoking+21+27--------------------27+2C2C.mp3"}'
+    end
   end
 end
