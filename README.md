@@ -1,8 +1,8 @@
-# Ankirb
+# ankirb
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ankirb`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+[![Gem Version](https://badge.fury.io/rb/ankirb.svg)](https://badge.fury.io/rb/ankirb)
+ 
+A basic gem to create [Anki](http://ankisrs.net/) decks (.apkg)
 
 ## Installation
 
@@ -22,7 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+require 'ankirb'
+
+deck = Anki::Deck.new 'FancyExampleDeck'
+deck.add_card Anki::Card.new(:front=>"What is the french for cheese omelette?", :back=>"Omelette au fromage")
+
+Anki::apkg.export deck, "~/Anki/Decks" #export to ~/Anki/Decks/FancyExampleDeck.apkg
+```
 
 ## Development
 
