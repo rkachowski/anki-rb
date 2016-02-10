@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-```
+```ruby
 require 'ankirb'
 
 deck = Anki::Deck.new 'FancyExampleDeck'
