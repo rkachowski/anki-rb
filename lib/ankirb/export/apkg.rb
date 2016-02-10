@@ -60,6 +60,10 @@ module Anki
       )"
 
       deck.cards.each do |card|
+        #flds is front and back of card separated by \xf1
+        flds_bytes = [card.front, card.back].map{|f|f.bytes}.insert(1, 'f1'.hex)
+        flds = flds_bytes.flatten.pack('C*').force_encoding('utf-8')
+
         note = {
             :id => Time.now.to_i,
             :guid => Base91.encode(Random.new.rand(2**63).to_s),
@@ -67,8 +71,8 @@ module Anki
             :mod => Time.now.to_i,
             :usn => -1,
             :tags => nil,
-            :flds => [card.front, card.back].join('\x1f').force_encoding('UTF-8'),
-            :sfld => card.front,
+            :flds => flds,
+            :sfld => card.front.gsub(/<\/?[^>]*>/, ''), #v dirty html sanitization
             :csum => 0,
             :flags => 0,
             :data => nil
