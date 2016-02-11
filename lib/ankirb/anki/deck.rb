@@ -28,18 +28,19 @@ module Anki
     attr_accessor :front, :back, :tags, :deck
     attr_reader :id
 
-    @@defaults = {
-        :front => 'Card Front',
-        :back => 'Card Back'
-    }
 
     def initialize options={}
-      @front = options[:front] || @@defaults[:front]
-      @back = options[:back] || @@defaults[:back]
+      @front = options[:front] || ''
+      @back = options[:back] || ''
       @tags = options[:tags] || []
 
       @id = Time.now.to_i
     end
+
+    alias :question :front
+    alias :question= :front=
+    alias :answer :back
+    alias :answer= :back=
   end
 
   class Type
