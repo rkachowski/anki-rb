@@ -25,8 +25,9 @@ Or install it yourself as:
 ```ruby
 require 'ankirb'
 
+card = Anki::Card.new(:front=>"What is the french for cheese omelette?", :back=>"Omelette au fromage")
 deck = Anki::Deck.new 'FancyExampleDeck'
-deck.add_card Anki::Card.new(:front=>"What is the french for cheese omelette?", :back=>"Omelette au fromage")
+deck.add_card card
 
 Anki::apkg.export deck, "~/Anki/Decks" #export to ~/Anki/Decks/FancyExampleDeck.apkg
 ```
