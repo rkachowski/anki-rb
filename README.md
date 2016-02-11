@@ -1,6 +1,6 @@
 # ankirb
 
-[![Gem Version](https://badge.fury.io/rb/ankirb.svg)](https://badge.fury.io/rb/ankirb)  [![Build Status](https://api.travis-ci.org/rkachowski/anki-rb.svg)]
+[![Gem Version](https://badge.fury.io/rb/ankirb.svg)](https://badge.fury.io/rb/ankirb)  ![Build Status](https://api.travis-ci.org/rkachowski/anki-rb.svg)
  
 A basic gem to create [Anki](http://ankisrs.net/) decks (.apkg)
 
