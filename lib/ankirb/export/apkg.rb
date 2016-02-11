@@ -4,7 +4,7 @@ require 'fileutils'
 require 'base91'
 module Anki
 
-  SCHEMA_VERSION = 11
+  SCHEMA_VERSION = 11 unless const_defined?(:SCHEMA_VERSION)
 
   class APKGExporter
 
