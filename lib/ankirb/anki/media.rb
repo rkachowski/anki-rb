@@ -11,7 +11,5 @@ module Anki
     def self.video
 
     end
-
-
   end
 end

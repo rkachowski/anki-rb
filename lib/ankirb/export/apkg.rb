@@ -61,7 +61,7 @@ module Anki
 
       deck.cards.each do |card|
         #flds is front and back of card separated by \xf1
-        flds_bytes = [card.front, card.back].map{|f|f.bytes}.insert(1, 'f1'.hex)
+        flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, 'f1'.hex)
         flds = flds_bytes.flatten.pack('C*').force_encoding('utf-8')
 
         note = {
@@ -72,7 +72,7 @@ module Anki
             :usn => -1,
             :tags => nil,
             :flds => flds,
-            :sfld => card.front.gsub(/<\/?[^>]*>/, ''), #v dirty html sanitization
+            :sfld => card.front.content.gsub(/<\/?[^>]*>/, ''), #v dirty html sanitization
             :csum => 0,
             :flags => 0,
             :data => nil

@@ -27,4 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'base91', '0.0.1'
   spec.add_runtime_dependency 'rubyzip', '~> 1.1'
   spec.add_runtime_dependency 'sqlite3', '~> 1.3'
+  spec.add_runtime_dependency 'mimemagic', '~> 0.3'
+
 end
