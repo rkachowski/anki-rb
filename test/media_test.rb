@@ -25,7 +25,7 @@ class MediaTest < Minitest::Test
         assert File.exists?('0'), "audio should have been renamed to '0' "
         assert MimeMagic.by_magic(File.open('0')).audio?, 'file should be audio'
 
-        hash = JSON.parse(File.open('0').read)
+        hash = JSON.parse(media)
         assert hash['0'] == 'tiger.wav', 'media manifest should contain reference to original filename'
       end
     end
