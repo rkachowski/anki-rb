@@ -1,8 +1,7 @@
 require 'mimemagic'
 module Anki
   class MediaManager
-    attr_reader :relocations
-    @@relocations = []
+
 
     def self.get_tag_for filepath
       media = MimeMagic.by_magic(File.open(filepath))
@@ -10,18 +9,20 @@ module Anki
         when media.image?
         when media.video?
         when media.audio?
-          self.add_relocation filepath
           "[sound:#{File.basename(filepath)}]"
         else
           raise "Unknown media type - #{filepath}"
       end
     end
 
-    private
-
-    def self.add_relocation filepath
-      relocation = {:source => filepath, :destination => @@relocations.length, :name =>File.basename(filepath)}
-      @@relocations << relocation
+    def self.valid_media? filepath
+      media = MimeMagic.by_magic(File.open(filepath))
+      if media.image? or media.video? or media.audio?
+        true
+      else
+        false
+      end
     end
+
   end
 end

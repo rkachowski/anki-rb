@@ -20,6 +20,9 @@ module Anki
       @back
     end
 
+    def has_media?
+      !@front.media.empty? or !back.media.empty?
+    end
     def front= value
       @front.content = value
     end
@@ -39,14 +42,13 @@ module Anki
 
     def initialize content
       @content = content
-
+      @media = []
       scan_content_for_media
     end
 
     def << thing
       if File.exists?(thing)
-        # treat as media - just throw into the content
-        self << MediaManager.get_tag_for(thing)
+        @media << thing
       else
         @content << thing
         scan_content_for_media
