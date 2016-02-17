@@ -38,7 +38,7 @@ module Anki
 
       faces_with_media.each do |face|
         face.media.each do |media_reference|
-          face << MediaManager.get_tag_for(media_reference)
+          #face << MediaManager.get_tag_for(media_reference)
           FileUtils.cp media_reference, media.length.to_s
           media[media.size.to_s] = File.basename(media_reference)
         end
@@ -74,7 +74,7 @@ module Anki
       deck.cards.each do |card|
         #flds is front and back of card separated by \xf1
         flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, 'f1'.hex)
-        flds = flds_bytes.flatten.pack('C*').force_encoding('utf-8')
+        flds = flds_bytes.flatten.pack('U*')
 
         note = {
             :id => Time.now.to_i,
