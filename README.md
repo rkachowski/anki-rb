@@ -25,16 +25,25 @@ Or install it yourself as:
 ```ruby
 require 'ankirb'
 
-card = Anki::Card.new(:front=>"What is the french for cheese omelette?", :back=>"Omelette au fromage")
+#create a deck
 deck = Anki::Deck.new 'FancyExampleDeck'
+
+#create a basic card
+card = Anki::Card.new(:front=>"What is the french for cheese omelette?", :back=>"Omelette au fromage")
+
+#add audio to the back
+card.back << "dexters_lab_omelette.wav"
+
+#add card to the deck
 deck.add_card card
 
-Anki::apkg.export deck, "~/Anki/Decks" #export to ~/Anki/Decks/FancyExampleDeck.apkg
+#export to ~/Anki/Decks/FancyExampleDeck.apkg
+Anki::apkg.export deck, "~/Anki/Decks" 
 ```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ankirb.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rkachowski/ankirb.
 
 
 ## License
