@@ -18,11 +18,8 @@ class MediaTest < Minitest::Test
         current_dir = Dir.pwd
         
         Dir.chdir unzip_tmp
-
-        FileUtils.mv file_path, unzip_tmp
-        Zip::File.open('AudioTestDeck.apkg') do |zip_file|
-          zip_file.each {|file| file.extract(file.name)}
-        end
+        FileUtils.cp file_path, unzip_tmp
+        unzip_file 'AudioTestDeck.apkg'
 
         assert File.exists?('0'), "audio should have been renamed to '0' "
         assert MimeMagic.by_magic(File.open('0')).audio?, 'file should be audio'

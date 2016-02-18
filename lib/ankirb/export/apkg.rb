@@ -72,8 +72,8 @@ module Anki
       )"
 
       deck.cards.each do |card|
-        #flds is front and back of card separated by \xf1
-        flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, 'f1'.hex)
+        #flds is front and back of card separated by \x1f
+        flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, '1f'.hex)
         flds = flds_bytes.flatten.pack('U*')
 
         note = {
