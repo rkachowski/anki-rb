@@ -11,40 +11,39 @@ module Anki
 
     def self.export deck, path
       Dir.mktmpdir do |dir|
-        Dir.chdir(dir) do
-          db = DB.create 'collection.anki2'
+          db = DB.create File.join(dir,'collection.anki2')
 
-          export_media deck
+          export_media deck, dir
           export_deck deck, db
-          filename = deck.name + '.apkg'
-          archive = Zip::File.open(filename, Zip::File::CREATE)
 
-          Dir.glob('*').each do |file|
-            archive.add(file, file)
+          filename = deck.name + '.apkg'
+          archive = Zip::File.open(File.join(dir,filename), Zip::File::CREATE)
+
+          Dir.glob(File.join(dir,'*')).each do |file|
+            archive.add( File.basename(file),file)
           end
 
           archive.close()
 
-          FileUtils.move(filename, path)
-        end
+          FileUtils.move(File.join(dir,filename), path)
       end
     end
 
     private
-    def self.export_media deck
+    def self.export_media deck, path
       media_cards = deck.cards.select{|c| c.has_media? }
       faces_with_media = media_cards.reduce([]){|arr,c| arr.push(c.front,c.back)}.select{|f|!f.media.empty?}
       media ={}
 
       faces_with_media.each do |face|
         face.media.each do |media_reference|
-          #face << MediaManager.get_tag_for(media_reference)
-          FileUtils.cp media_reference, media.length.to_s
+          face << MediaManager.get_tag_for(media_reference)
+          FileUtils.cp media_reference, File.join(path, media.length.to_s)
           media[media.size.to_s] = File.basename(media_reference)
         end
       end
 
-      File.open('media', 'w'){|f| f << media.to_json }
+      File.open(File.join(path, 'media'), 'w'){|f| f << media.to_json }
     end
 
     def self.export_deck deck, db
