@@ -43,7 +43,6 @@ module Anki
     def initialize content
       @content = content
       @media = []
-      scan_content_for_media
     end
 
     def << thing
@@ -51,17 +50,11 @@ module Anki
         @media << thing
       else
         @content << thing
-        scan_content_for_media
       end
     end
 
     def to_s
       @content
-    end
-    private
-
-    def scan_content_for_media
-      #todo: check if content contains a media reference and apply that
     end
   end
 end

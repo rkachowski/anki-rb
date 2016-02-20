@@ -1,21 +1,28 @@
 require 'mimemagic'
 module Anki
-  class MediaManager
+  class Media
 
-
-    def self.get_tag_for filepath
+    def self.process filepath, str
       media = MimeMagic.by_magic(File.open(filepath))
       case
         when media.image?
-        when media.video?
-        when media.audio?
-          "[sound:#{File.basename(filepath)}]"
+          tag = %(<img src="#{File.basename(filepath)}"/>)
+
+          if str.match(/{{img}}/)
+            str.sub!(/{{img}}/, tag)
+          else
+            str << tag
+          end
+        when media.audio?, media.video? #video also has a sound tag, idk
+          str << "[sound:#{File.basename(filepath)}]"
         else
           raise "Unknown media type - #{filepath}"
       end
     end
 
     def self.valid_media? filepath
+      return false unless File.exists?(filepath)
+
       media = MimeMagic.by_magic(File.open(filepath))
       if media.image? or media.video? or media.audio?
         true

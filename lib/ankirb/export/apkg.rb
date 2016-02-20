@@ -37,7 +37,8 @@ module Anki
 
       faces_with_media.each do |face|
         face.media.each do |media_reference|
-          face << MediaManager.get_tag_for(media_reference)
+          face.content = Media.process(media_reference, face.content)
+
           FileUtils.cp media_reference, File.join(path, media.length.to_s)
           media[media.size.to_s] = File.basename(media_reference)
         end
