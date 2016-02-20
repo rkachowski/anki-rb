@@ -41,6 +41,22 @@ deck.add_card card
 Anki::apkg.export deck, "~/Anki/Decks" 
 ```
 
+### Media types
+
+Media can be added to a card face via the `<<` operator, just pass a string that points to a valid media file and the lib will convert + package the file. 
+
+For images, the position of the image in the card can be set by using a placeholder `{{img}}`. 
+
+```ruby
+card = Anki::Card.new :front => "{{img}} text after image", :back => "text before image {{img}}"
+card.front << "front_img.jpg"
+card.back << "back_img.jpg"
+```
+
+If no placeholder is present the image will just be added at the end. If multiple placeholders are present, they'll be replaced sequentially with the image files added to the card.
+
+As with anki, html tags can be used for more styling in the card content. Card model / css template support may be added in future.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/rkachowski/ankirb.
