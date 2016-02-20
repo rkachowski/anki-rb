@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/ankirb.svg)](https://badge.fury.io/rb/ankirb)  [![Build Status](https://travis-ci.org/rkachowski/anki-rb.svg?branch=master)](https://travis-ci.org/rkachowski/anki-rb)
  
-A basic gem to create [Anki](http://ankisrs.net/) decks (.apkg)
+A basic gem to create [Anki](http://ankisrs.net/) decks (.apkg). Supports integrated media (audio, images and videos).
 
 ## Installation
 
