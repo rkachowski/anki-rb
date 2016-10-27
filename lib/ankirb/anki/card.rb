@@ -8,8 +8,7 @@ module Anki
       @front = CardFace.new(options[:front] || '')
       @back = CardFace.new(options[:back] || '')
       @tags = options[:tags] || []
-
-      @id = Time.now.to_i
+      @id = options[:id] || Time.now.to_i
     end
 
     def front
