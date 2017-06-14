@@ -69,6 +69,7 @@ module Anki
       # Find every occurence of images, sounds and video, remove
       # them from text, add it to media. Return resulting text
       # and list of media
+      return ['', []] if text == nil
       re = /<img src="(.*?)" *\/>|\[sound:(.*?)\]/
       media = text.scan(re).flatten.reject { |e| e == nil }
       return [text.gsub(re, ''), media]
