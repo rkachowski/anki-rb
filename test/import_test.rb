@@ -25,4 +25,13 @@ class ImportTest < Minitest::Test
       end
     end
   end
+
+  def test_parse_text
+    assert_equal ['text', []], Anki::apkg_importer.parse_text('text')
+    assert_equal ['', ['a.jpg']], Anki::apkg_importer.parse_text('<img src="a.jpg"/>')
+    assert_equal ['text and ', ['a.jpg']], Anki::apkg_importer.parse_text('text and <img src="a.jpg"/>')
+    assert_equal ['text and ', ['a.mp3']], Anki::apkg_importer.parse_text('text and [sound:a.mp3]')
+    assert_equal ['text and ', ['a.mp4']], Anki::apkg_importer.parse_text('text and [sound:a.mp4]')
+    assert_equal ['', []], Anki::apkg_importer.parse_text(nil)
+  end
 end
