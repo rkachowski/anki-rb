@@ -34,4 +34,18 @@ class ImportTest < Minitest::Test
     assert_equal ['text and ', ['a.mp4']], Anki::apkg_importer.parse_text('text and [sound:a.mp4]')
     assert_equal ['', []], Anki::apkg_importer.parse_text(nil)
   end
+
+  def test_add_media
+    face = []
+    Anki::apkg_importer.add_media('dir/to/media',
+      { '0' => '0.jpg' }, face, ['0'])
+    assert_equal ['dir/to/media/0.jpg'], face
+
+    # Media not included in the Anki file (for example
+    # web links) are not included in the card face
+    face = []
+    Anki::apkg_importer.add_media('dir/to/media',
+      { '0' => '0.jpg' }, face, ['http://www.example.com/image.jpg'])
+    assert_equal [], face
+  end
 end

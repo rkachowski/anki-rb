@@ -16,7 +16,7 @@ module Anki
           end
         end
 
-        media = self.parse_media_mapping(File.join(dir, 'media'))
+        media_mapping = self.parse_media_mapping(File.join(dir, 'media'))
         db = SQLite3::Database.new File.join(dir, 'collection.anki2')
         cols = db.execute('select id, decks from col')
 
@@ -41,13 +41,8 @@ module Anki
                 output_card = Anki::Card.new(id: note[0], front: front_text,
                   back: back_text)
 
-                front_media.each do |m|
-                  output_card.front << File.join(dir, media[m])
-                end
-
-                back_media.each do |m|
-                  output_card.back << File.join(dir, media[m])
-                end
+                self.add_media(dir, media_mapping, output_card.front, front_media)
+                self.add_media(dir, media_mapping, output_card.back, back_media)
 
                 output_deck.add_card output_card
               end
@@ -79,6 +74,14 @@ module Anki
       # Media is a hash from number filename to real filename
       # We need the inverse
       JSON.parse(File.read(filename)).invert
+    end
+
+    def self.add_media(dir, media_mapping, face, medias)
+      medias.each do |m|
+        if media_mapping.has_key? m
+          face << File.join(dir, media_mapping[m])
+        end
+      end
     end
   end
 end
