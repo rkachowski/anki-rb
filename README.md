@@ -38,7 +38,13 @@ card.back << "dexters_lab_omelette.wav"
 deck.add_card card
 
 #export to ~/Anki/Decks/FancyExampleDeck.apkg
-Anki::apkg.export deck, "~/Anki/Decks" 
+Anki::apkg.export deck, "~/Anki/Decks"
+
+#import decks from an Anki apkg file
+Anki::apkg_importer.import "~/Anki/Decks/FancyExampleDeck.apkg" do |decks|
+  #the decks are unzipped in a temporary directory that lives
+  #for the duration of this block
+end
 ```
 
 ### Media types
