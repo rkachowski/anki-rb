@@ -19,4 +19,15 @@ class DeckTest < Minitest::Test
     assert_equal(deck, card.deck, 'deck reference should be set')
     assert_equal(deck[card.id], card, 'should retrieve card by id')
   end
+
+  def test_add_a_ton_of_cards
+    deck = Anki::Deck.new 'TestDeck'
+
+    40.times do
+      card = Anki::Card.new
+      deck.add_card card
+    end
+
+    assert_equal(40,deck.cards.size, "cards should all have unique ids and 40 cards in deck")
+  end
 end
