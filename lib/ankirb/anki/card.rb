@@ -3,13 +3,16 @@ module Anki
     attr_accessor :tags, :deck
     attr_reader :id
 
+    @@instance_count = 0
+
 
     def initialize options={}
       @front = CardFace.new(options[:front] || '')
       @back = CardFace.new(options[:back] || '')
       @tags = options[:tags] || []
 
-      @id = Time.now.to_i
+      @id = @@instance_count
+      @@instance_count += 1
     end
 
     def front
