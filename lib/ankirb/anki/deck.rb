@@ -7,7 +7,14 @@ module Anki
       @name = name
       @id = Time.now.to_i
       @cards = {}
-      
+
+      #change @cards#to_s to prevent recursive output via parent / child relationship
+
+      class << @cards
+        def to_s
+          "#< #{@cards.keys.count} cards>"
+        end
+      end
     end
 
     def add_card card
