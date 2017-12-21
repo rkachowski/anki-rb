@@ -5,15 +5,15 @@ module Anki
 
     def initialize name
       @name = name
-      @id = Time.now.to_i
+      @id = Anki::Helper.get_id
       @cards = {}
 
       #change @cards#to_s to prevent recursive output via parent / child relationship
-
       class << @cards
         def to_s
-          "#< #{@cards.keys.count} cards>"
+          "#< #{self.keys.count} cards>"
         end
+        alias_method :inspect, :to_s
       end
     end
 

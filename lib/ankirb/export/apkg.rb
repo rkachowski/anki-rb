@@ -11,21 +11,21 @@ module Anki
 
     def self.export deck, path
       Dir.mktmpdir do |dir|
-          db = DB.create File.join(dir,'collection.anki2')
+        db = DB.create File.join(dir,'collection.anki2')
 
-          export_media deck, dir
-          export_deck deck, db
+        export_media deck, dir
+        export_deck deck, db
 
-          filename = deck.name + '.apkg'
-          archive = Zip::File.open(File.join(dir,filename), Zip::File::CREATE)
+        filename = deck.name + '.apkg'
+        archive = Zip::File.open(File.join(dir,filename), Zip::File::CREATE)
 
-          Dir.glob(File.join(dir,'*')).each do |file|
-            archive.add( File.basename(file),file)
-          end
+        Dir.glob(File.join(dir,'*')).each do |file|
+          archive.add( File.basename(file),file)
+        end
 
-          archive.close()
+        archive.close()
 
-          FileUtils.move(File.join(dir,filename), path)
+        FileUtils.move(File.join(dir,filename), path)
       end
     end
 
@@ -55,7 +55,7 @@ module Anki
 
       model = Defaults.model(deck.id)
 
-      db.execute "insert into col values(
+      cmd = "insert into col values(
         #{deck.id},
         #{Time.now.to_i},
         #{Time.now.to_i},
@@ -71,13 +71,15 @@ module Anki
         '#{Defaults.tags}'
       )"
 
+      Anki.logger.debug cmd
+      db.execute cmd
       deck.cards.each do |card|
         #flds is front and back of card separated by \x1f
         flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, '1f'.hex)
         flds = flds_bytes.flatten.pack('U*')
 
         note = {
-            :id => Time.now.to_i,
+            :id => Anki::Helper.get_id,
             :guid => Base91.encode(Random.new.rand(2**63).to_s),
             :mid => Defaults.model_id,
             :mod => Time.now.to_i,
@@ -91,46 +93,32 @@ module Anki
         }
 
         add_note_to_db note, db
-        add_card_to_db note, deck, db
+        add_card_to_db card.id, note, deck, db
       end
 
     end
 
-    def self.add_card_to_db(note, deck, db)
-      db.execute "insert into cards values(
-        #{Time.now.to_i},
-        #{note[:id]},
-        #{deck.id},
-        0,
-        #{Time.now.to_i},
-        -1,
-        #{Type.new_type},
-        #{Queue.new_queue},
-        #{Random.new.rand(2**10)},
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        '')"
+    def self.add_card_to_db(id, note, deck, db)
+      args = [id, note[:id],deck.id, 0, Time.now.to_i, -1, Type.new_type, Queue.new_queue,Random.new.rand(2**10),
+      0, 0, 0, 0, 0, 0, 0, 0, '']
+      cmd = "insert into
+cards( id, nid, did, ord, mod, usn, type, queue, due, ivl, factor, reps, lapses, left, odue, odid, flags, data)
+values(#{args.map{ '?' }.join(',')})"
+
+      Anki.logger.debug cmd
+      db.execute cmd, args
     end
 
     def self.add_note_to_db note, db
-      db.execute "insert into notes values(
-        #{note[:id]},
-        '#{note[:guid]}',
-        #{note[:mid]},
-        #{note[:mod]},
-        #{note[:usn]},
-        '#{note[:tags]}',
-        '#{note[:flds]}',
-        '#{note[:sfld]}',
-        #{note[:csum]},
-        #{note[:flags]},
-        '#{note[:data]}')"
+      args = [note[:id],note[:guid].to_s, note[:mid], note[:mod],note[:usn], note[:tags].to_s,
+        note[:flds].to_s,note[:sfld].to_s,note[:csum],note[:flags], note[:data].to_s]
+
+      cmd = "insert into
+notes( id, guid, mid, mod, usn, tags, flds, sfld, csum, flags, data)
+values(?,?,?,?,?,?,?,?,?,?,?)"
+
+      Anki.logger.debug cmd + ' - ' + args.join(', ')
+      db.execute(cmd, args)
     end
 
     def self.deck_to_json deck
