@@ -74,9 +74,8 @@ module Anki
       Anki.logger.debug cmd
       db.execute cmd
       deck.cards.each do |card|
-        #flds is front and back of card separated by \x1f
-        flds_bytes = [card.front.content, card.back.content].map{|f|f.bytes}.insert(1, '1f'.hex)
-        flds = flds_bytes.flatten.pack('U*')
+        #flds is defined in db schema as front and back of card separated by \u001f
+        flds = [card.front.content, card.back.content].join("\u001F")
 
         note = {
             :id => Anki::Helper.get_id,
