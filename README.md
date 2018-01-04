@@ -37,6 +37,9 @@ card.back << "dexters_lab_omelette.wav"
 #add card to the deck
 deck.add_card card
 
+#add the reverse version of the card
+deck.add_card card.invert 
+
 #export to ~/Anki/Decks/FancyExampleDeck.apkg
 Anki::apkg.export deck, "~/Anki/Decks" 
 ```

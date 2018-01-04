@@ -17,20 +17,24 @@ module Anki
       end
     end
 
+    # adds a card to the deck
     def add_card card
       card.deck = self
       @cards[card.id] = card
     end
 
+    # adds a card, and then inserts the inverted version of the card immediately after
     def add_card_with_inversion card
       add_card card
       add_card card.invert
     end
 
+    # add inverted versions of the cards at the end of the deck
     def add_inversions
       @cards.values.each {|c| add_card c.invert }
     end
 
+    # invert the faces of every card in place
     def invert!
       @cards.values.each {|c| c.invert! }
     end

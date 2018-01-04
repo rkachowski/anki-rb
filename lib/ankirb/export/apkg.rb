@@ -9,6 +9,7 @@ module Anki
 
   class APKGExporter
 
+    # exports the provided deck object to an apkg file at the specified path
     def self.export deck, path
       deck = deck.dup
 

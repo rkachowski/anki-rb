@@ -19,14 +19,20 @@ module Anki
       @back
     end
 
+    # returns a new card with the front and back of the original inverted
     def invert
-      Anki::Card.new(front: @back.to_s, back: @front.to_s)
+      c = Anki::Card.new(front: @back.to_s, back: @front.to_s)
+      c.front.media = @back.media
+      c.back.media = @front.media
+      c
     end
 
+    # flips the front and back of this card
     def invert!
       @front, @back = @back, @front
     end
 
+    # is media attached to this card?
     def has_media?
       !@front.media.empty? or !back.media.empty?
     end
