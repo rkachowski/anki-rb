@@ -22,6 +22,19 @@ module Anki
       @cards[card.id] = card
     end
 
+    def add_card_with_inversion card
+      add_card card
+      add_card card.invert
+    end
+
+    def add_inversions
+      @cards.values.each {|c| add_card c.invert }
+    end
+
+    def invert!
+      @cards.values.each {|c| c.invert! }
+    end
+
     def cards
       @cards.values
     end
