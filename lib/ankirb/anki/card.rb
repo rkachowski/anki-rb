@@ -20,7 +20,7 @@ module Anki
     end
 
     def invert
-      Anki::Card.new(front: @back.dup, back: @front.dup)
+      Anki::Card.new(front: @back.to_s, back: @front.to_s)
     end
 
     def invert!
