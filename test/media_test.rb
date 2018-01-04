@@ -8,6 +8,8 @@ class MediaTest < Minitest::Test
     card.back << File.join(File.dirname(__FILE__), 'media/tiger.wav')
     deck.add_card card
 
+    orig_back = card.back.to_s
+
     Dir.mktmpdir do |tmp|
       file_path = File.join(tmp, 'AudioTestDeck.apkg')
 
@@ -23,6 +25,8 @@ class MediaTest < Minitest::Test
 
       hash = JSON.parse(File.open(File.join(tmp,'media')).read)
       assert hash['0'] == 'tiger.wav', 'media manifest should contain reference to original filename'
+
+      assert_equal orig_back, card.back.to_s, "Card body is not changed upon export"
     end
   end
 

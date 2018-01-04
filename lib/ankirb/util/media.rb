@@ -11,11 +11,11 @@ module Anki
           if str.match(/{{img}}/)
             str.sub!(/{{img}}/, tag)
           else
-            str << tag unless str.match tag
+            str << tag unless str.include? tag
           end
         when media.audio?, media.video? #video also has a sound tag, idk
           tag = "[sound:#{File.basename(filepath)}]"
-          str << tag unless str.match tag
+          str << tag unless str.include? tag
         else
           raise "Unknown media type - #{filepath}"
       end

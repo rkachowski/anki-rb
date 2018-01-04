@@ -29,6 +29,12 @@ module Anki
     def [] id
       @cards[id]
     end
+
+    def initialize_copy(orig)
+      super
+      orig.instance_variable_set(:@cards, {})
+      @cards.values.each { |c| orig.add_card c.dup }
+    end
   end
 
 

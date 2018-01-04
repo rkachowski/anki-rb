@@ -6,7 +6,7 @@ class DeckTest < Minitest::Test
 
     assert(deck, 'deck should exist')
     assert_equal('TestDeck', deck.name, 'name should match')
-    assert_kind_of(Fixnum, deck.id, 'id should be a fixnum (int)')
+    assert_kind_of(Numeric, deck.id, 'id should be a fixnum (int)')
   end
 
   def test_add_card

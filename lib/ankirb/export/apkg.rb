@@ -10,6 +10,8 @@ module Anki
   class APKGExporter
 
     def self.export deck, path
+      deck = deck.dup
+
       Dir.mktmpdir do |dir|
         db = DB.create File.join(dir,'collection.anki2')
 
@@ -33,7 +35,7 @@ module Anki
     def self.export_media deck, path
       media_cards = deck.cards.select{|c| c.has_media? }
       faces_with_media = media_cards.reduce([]){|arr,c| arr.push(c.front,c.back)}.select{|f|!f.media.empty?}
-      media ={}
+      media = {}
 
       faces_with_media.each do |face|
         face.media.each do |media_reference|
