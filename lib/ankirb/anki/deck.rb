@@ -6,6 +6,10 @@ module Anki
     def initialize name
       @name = name
       @id = Anki::Helper.get_id
+      initialize_cards
+    end
+
+    def initialize_cards
       @cards = {}
 
       #change @cards#to_s to prevent recursive output via parent / child relationship
@@ -49,8 +53,8 @@ module Anki
 
     def initialize_copy(orig)
       super
-      orig.instance_variable_set(:@cards, {})
-      @cards.values.each { |c| orig.add_card c.dup }
+      initialize_cards
+      orig.cards.each { |c| add_card c.dup }
     end
   end
 

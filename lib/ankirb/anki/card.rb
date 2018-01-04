@@ -22,8 +22,8 @@ module Anki
     # returns a new card with the front and back of the original inverted
     def invert
       c = Anki::Card.new(front: @back.to_s, back: @front.to_s)
-      c.front.media = @back.media
-      c.back.media = @front.media
+      c.front = @back.dup
+      c.back = @front.dup
       c
     end
 
@@ -38,11 +38,25 @@ module Anki
     end
 
     def front= value
-      @front.content = value
+      if value.is_a? String
+        @front.content = value
+      else
+        @front = value
+      end
     end
 
     def back= value
-      @back.content = value
+      if value.is_a? String
+        @back.content = value
+      else
+        @back = value
+      end
+    end
+
+    def initialize_copy orig
+      super
+      @front = Marshal.load(Marshal.dump(orig.front))
+      @back = Marshal.load(Marshal.dump(orig.back))
     end
 
     alias :question :front
@@ -60,6 +74,8 @@ module Anki
     end
 
     def << thing
+      return unless thing and not thing.empty?
+
       if File.exists?(thing)
         @media << thing
       else

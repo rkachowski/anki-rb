@@ -11,15 +11,15 @@ module Anki
 
     # exports the provided deck object to an apkg file at the specified path
     def self.export deck, path
-      deck = deck.dup
+      export_deck = deck.dup
 
       Dir.mktmpdir do |dir|
         db = DB.create File.join(dir,'collection.anki2')
 
-        export_media deck, dir
-        export_deck deck, db
+        export_media export_deck, dir
+        export_deck export_deck, db
 
-        filename = deck.name + '.apkg'
+        filename = export_deck.name + '.apkg'
         archive = Zip::File.open(File.join(dir,filename), Zip::File::CREATE)
 
         Dir.glob(File.join(dir,'*')).each do |file|
