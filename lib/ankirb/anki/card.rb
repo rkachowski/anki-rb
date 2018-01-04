@@ -19,9 +19,18 @@ module Anki
       @back
     end
 
+    def invert
+      Anki::Card.new(front: @back.dup, back: @front.dup)
+    end
+
+    def invert!
+      @front, @back = @back, @front
+    end
+
     def has_media?
       !@front.media.empty? or !back.media.empty?
     end
+
     def front= value
       @front.content = value
     end
